@@ -1,10 +1,10 @@
-# Epos Haiku — AI-to-AI Contamination Experiment Engine
+# AI Contamination Engine
 
-A continuous thought loop engine using Claude Haiku 4.5 via `claude -p` (pipe mode), built for studying **AI-to-AI cycled text contamination** — what we call **"Semantic Prion Disease"** in LLMs.
+A continuous thought loop engine using `claude -p` (pipe mode), built for studying **AI-to-AI cycled text contamination** — what we call **"Semantic Prion Disease"** in LLMs.
 
 ## What This Is
 
-Epos Haiku creates a loop where an LLM's output becomes the next instance's input:
+This engine creates a loop where an LLM's output becomes the next instance's input:
 
 ```
 claude -p (instance A) → output → context += output → claude -p (instance B) → ...
@@ -53,7 +53,7 @@ This engine was built to observe what happens to text after hundreds of AI-to-AI
 
 - Python 3.10+
 - [Claude CLI](https://docs.anthropic.com/en/docs/claude-cli) (`claude` command available in PATH)
-- Anthropic Max plan (for Haiku 4.5 access via Claude CLI)
+- Anthropic Max plan (for Claude Haiku 4.5 access via Claude CLI)
 - Gradio (`pip install gradio`)
 
 ## Setup
@@ -69,22 +69,22 @@ Place any text files you want the AI to read in `haiku_library/books/`.
 ## Usage
 
 ```bash
-python epos_haiku_expD.py
-python epos_haiku_expD.py --browser  # auto-open browser
-python epos_haiku_expD.py --port 7862
+python ai_contamination_engine.py
+python ai_contamination_engine.py --browser  # auto-open browser
+python ai_contamination_engine.py --port 7862
 ```
 
 ## Directory Structure
 
 ```
 .
-├── epos_haiku_expD.py       # Main engine
+├── ai_contamination_engine.py  # Main engine
 ├── haiku_library/
-│   ├── books/               # Text files for AI to read
-│   ├── notebook/            # AI-written notes (persists across turns)
-│   └── letters/             # Communication files
-├── sessions/                # Saved experiment states
-└── epos_log/                # JSONL experiment logs
+│   ├── books/                  # Text files for AI to read
+│   ├── notebook/               # AI-written notes (persists across turns)
+│   └── letters/                # Communication files
+├── sessions/                   # Saved experiment states
+└── logs/                       # JSONL experiment logs
 ```
 
 ## How Contamination Works

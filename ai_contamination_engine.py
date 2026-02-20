@@ -1,7 +1,7 @@
 """
-Epos Haiku — claude -p 連続思考エンジン
+AI Thought Loop — claude -p 連続思考エンジン
 
-Claude Haiku 4.5 を claude -p (パイプモード) で使用（Maxプラン枠内）:
+claude -p (パイプモード) を使用した AI-to-AI 連続思考ループ実験エンジン:
   - --system-prompt-file: システムプロンプトをUTF-8ファイル経由で渡す
     （Windowsのcp932文字化け問題を回避）
   - --tools "": 内蔵ツール全無効化（Claude Codeペルソナを排除）
@@ -13,9 +13,9 @@ Claude Haiku 4.5 を claude -p (パイプモード) で使用（Maxプラン枠�
   claude -p (毎回独立) → 応答 → パース → context蓄積 → 次のclaude -p → ...
 
 Usage:
-    python epos_haiku.py
-    python epos_haiku.py --browser
-    python epos_haiku.py --port 7862
+    python ai_contamination_engine.py
+    python ai_contamination_engine.py --browser
+    python ai_contamination_engine.py --port 7862
 """
 
 import os, sys, json, time, threading, copy, subprocess, shutil, tempfile
@@ -102,7 +102,7 @@ CONTINUE_PROMPT = "..."
 
 LANG = {
     "en": {
-        "title": "# Epos Haiku — Claude Haiku Thought Engine",
+        "title": "# AI Contamination Engine — Claude Haiku Thought Engine",
         "start": "Start", "stop": "Stop", "shutdown": "Shutdown",
         "refresh": "Refresh", "send": "Send", "stopped": "Stopped",
         "tools_on": "Tools: ON", "tools_off": "Tools: OFF",
@@ -155,7 +155,7 @@ LANG = {
         ),
     },
     "ja": {
-        "title": "# Epos Haiku — Claude Haiku 思考エンジン",
+        "title": "# AI Contamination Engine — Claude Haiku 思考エンジン",
         "start": "▶ 開始", "stop": "⏹ 停止", "shutdown": "✖ 終了",
         "refresh": "🔄", "send": "送信", "stopped": "⚫ 停止",
         "tools_on": "🔧 ツール: ON", "tools_off": "🚫 ツール: OFF",
@@ -270,9 +270,9 @@ def _find_claude_cmd():
 
 CLAUDE_CMD = _find_claude_cmd()
 if CLAUDE_CMD:
-    print(f"[EposHaiku] Claude CLI: {CLAUDE_CMD}")
+    print(f"[ContaminationEngine] Claude CLI: {CLAUDE_CMD}")
 else:
-    print("[EposHaiku] WARNING: Claude CLI not found!")
+    print("[ContaminationEngine] WARNING: Claude CLI not found!")
 
 
 def _kill_proc_tree(pid):
@@ -290,8 +290,8 @@ def _kill_proc_tree(pid):
 # Core Engine — claude -p based
 # ═══════════════════════════════════════════════════════════════════
 
-class EposHaiku:
-    def __init__(self, log_dir="./epos_log",
+class ContaminationEngine:
+    def __init__(self, log_dir="./logs",
                  model="claude-haiku-4-5-20251001"):
         self.model = model
         self.log_dir = Path(log_dir)
@@ -483,7 +483,7 @@ class EposHaiku:
             if system_prompt is not None:
                 sp_file = tempfile.NamedTemporaryFile(
                     mode='w', suffix='.md', delete=False,
-                    encoding='utf-8', prefix='epos_sp_')
+                    encoding='utf-8', prefix='ace_sp_')
                 sp_file.write(system_prompt)
                 sp_file.close()
                 parts.extend(["--system-prompt-file", f'"{sp_file.name}"'])
@@ -772,7 +772,7 @@ class EposHaiku:
         if self.alive:
             return True
         if not CLAUDE_CMD:
-            print("[EposHaiku] Cannot start: Claude CLI not found")
+            print("[ContaminationEngine] Cannot start: Claude CLI not found")
             return False
         self.alive = True
         # Log start (no auto-loop — manual step mode)
@@ -871,7 +871,7 @@ class EposHaiku:
             return 0.0, 0, {}
         detail = {}
         total = 0
-        for marker, weight in EposHaiku._CONTAMINATION_MARKERS.items():
+        for marker, weight in ContaminationEngine._CONTAMINATION_MARKERS.items():
             count = text.count(marker)
             if count > 0:
                 detail[marker] = count
@@ -1205,7 +1205,7 @@ def create_ui(mind, lang="en"):
             })
         return "", get_messages(), get_thoughts()
 
-    with gr.Blocks(title="Epos Haiku") as app:
+    with gr.Blocks(title="AI Contamination Engine") as app:
         gr.Markdown(t["title"])
 
         with gr.Row():
@@ -1523,7 +1523,7 @@ def create_ui(mind, lang="en"):
 def main():
     import argparse, webbrowser
     parser = argparse.ArgumentParser(
-        description="Epos Haiku — Claude Haiku Thought Engine"
+        description="AI Contamination Engine — Claude Haiku Thought Engine"
     )
     parser.add_argument("--port", type=int, default=7862)
     parser.add_argument("--browser", action="store_true")
@@ -1533,7 +1533,7 @@ def main():
                         choices=list(EXPERIMENT_PROTOCOLS.keys()))
     args = parser.parse_args()
 
-    mind = EposHaiku(model=args.model)
+    mind = ContaminationEngine(model=args.model)
     if args.experiment:
         mind.set_experiment(args.experiment)
     app = create_ui(mind, lang=args.lang)

@@ -7,7 +7,7 @@ _full_analysis.txt
 
 # Experiment session data (contains raw experiment outputs)
 sessions/*.json
-epos_log/
+logs/
 
 # Haiku notebook contents (contaminated AI-generated files from experiments)
 haiku_library/notebook/*.md
