@@ -1,0 +1,17 @@
+__pycache__/
+*.pyc
+.claude/
+_analysis_045.py
+_chunk_*.txt
+_full_analysis.txt
+
+# Experiment session data (contains raw experiment outputs)
+sessions/
+epos_log/
+
+# Haiku notebook (contaminated AI-generated files from experiments)
+haiku_library/notebook/
+haiku_library/letters/
+
+# Books (copyrighted material - not for redistribution)
+haiku_library/books/
