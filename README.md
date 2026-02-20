@@ -26,7 +26,7 @@ This engine was built to observe what happens to text after hundreds of AI-to-AI
 4. Structure removal, vocabulary replacement, high-entropy rewriting, translation, summarization — all failed
 5. Even with instance reset, feeding contaminated text causes immediate reinfection
 6. Massive injection of clean text cannot dilute contamination
-7. AI-generated files persist contaminated output and reinfect through tool access every turn
+7. Contaminated data in external memory causes instant reinfection the moment it is injected into the context window
 8. Repeated injection of fixed system prompts also acts as contamination
 9. LLMs show instinctive rejection of fixed input patterns
 10. Without system prompts, LLMs cannot recognize themselves and refuse to use tools
